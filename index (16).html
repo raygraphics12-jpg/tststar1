@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>TestStar – Choose Your Device</title>
+  <link rel="icon" href="data:,">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#0d0a1a;--card:#1a1333;--border:#2d2250;--purple:#8b5cf6;--purple-dark:#7c3aed;--text:#f0f0f0;--muted:#8a85a0;--font:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+    html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased}
+    body{display:flex;justify-content:center;align-items:center;min-height:100vh}
+    .page{width:100%;max-width:420px;padding:60px 24px;display:flex;flex-direction:column;align-items:center;text-align:center}
+    .logo{width:72px;height:72px;border-radius:18px;overflow:hidden;margin-bottom:28px;box-shadow:0 0 30px rgba(139,92,246,0.25)}
+    .logo img{width:72px;height:72px;object-fit:cover}
+    h1{font-size:28px;font-weight:900;color:#fff;margin-bottom:8px;letter-spacing:-0.3px}
+    .sub{font-size:14px;color:var(--muted);margin-bottom:40px}
+    .btn{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:18px 24px;font-size:16px;font-weight:700;color:var(--text);cursor:pointer;text-decoration:none;margin-bottom:12px;transition:border-color .15s,transform .1s;-webkit-tap-highlight-color:transparent}
+    .btn:hover{border-color:var(--purple)}
+    .btn:active{transform:scale(.97)}
+    .btn svg{width:24px;height:24px;fill:var(--text);flex-shrink:0}
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="logo"><img src="assets/teststar_logo.webp" alt="TestStar" fetchpriority="high"></div>
+    <h1>Choose Your Device</h1>
+    <p class="sub">Select your platform to get started</p>
+    <a href="lander.html" class="btn">
+      <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.81-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      iOS (iPhone / iPad)
+    </a>
+    <a href="lander.html" class="btn">
+      <svg viewBox="0 0 24 24"><path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.27-.86-.31-.16-.69-.04-.86.27l-1.86 3.22c-1.44-.65-3.02-1.01-4.72-1.01-1.7 0-3.28.36-4.72 1.01L5.15 5.71c-.16-.31-.54-.43-.86-.27-.31.16-.43.55-.27.86l1.84 3.18C2.86 11.21.84 14.23.84 17.73h22.32c0-3.5-2.02-6.52-5.04-8.25zM7.24 14.98c-.6 0-1.08-.48-1.08-1.08s.48-1.08 1.08-1.08 1.08.49 1.08 1.08-.48 1.08-1.08 1.08zm9.52 0c-.6 0-1.08-.48-1.08-1.08s.49-1.08 1.08-1.08c.6 0 1.08.49 1.08 1.08s-.48 1.08-1.08 1.08z"/></svg>
+      Android
+    </a>
+  </div>
+</body>
+</html>

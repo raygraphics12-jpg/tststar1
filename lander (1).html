@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>TestStar – Earn Money Playing Games</title>
+  <link rel="icon" href="data:,">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#0d0a1a;--card:#1a1333;--border:#2d2250;--purple:#8b5cf6;--purple-dark:#7c3aed;--gold:#fbbf24;--text:#f0f0f0;--muted:#8a85a0;--font:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+    html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased}
+    body{display:flex;justify-content:center}
+    .page{width:100%;max-width:430px;min-height:100vh;padding:24px 16px 130px;display:flex;flex-direction:column;gap:20px}
+
+    /* Header */
+    .header{display:flex;align-items:center;gap:10px}
+    .header img{width:36px;height:36px;border-radius:10px;object-fit:cover}
+    .header span{font-size:18px;font-weight:800;letter-spacing:-0.3px}
+
+    /* Welcome bonus */
+    .bonus{display:flex;align-items:center;justify-content:center;gap:8px;background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.3);border-radius:99px;padding:8px 18px;align-self:center}
+    .bonus span{font-size:12px;font-weight:700;color:var(--purple)}
+
+    /* Hero */
+    .hero{text-align:center}
+    .hero h1{font-size:24px;font-weight:900;line-height:1.2;letter-spacing:-0.4px;margin-bottom:6px}
+    .hero p{font-size:13px;color:var(--muted);line-height:1.5}
+
+    /* Limited label */
+    .limited{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.1em}
+    .limited-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);animation:pulse 1.5s ease-in-out infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+    /* Game cards */
+    .games{display:flex;flex-direction:column;gap:10px}
+    .game-card{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;cursor:pointer;transition:border-color .15s,transform .1s;-webkit-tap-highlight-color:transparent}
+    .game-card:active{transform:scale(.975)}
+    .game-card:hover{border-color:rgba(139,92,246,0.5)}
+    .game-img{width:52px;height:52px;border-radius:14px;object-fit:cover;flex-shrink:0}
+    .game-info{flex:1;min-width:0}
+    .game-label{font-size:11px;color:var(--muted);font-weight:600}
+    .game-name{font-size:15px;font-weight:800;margin-top:2px}
+    .game-rate{font-size:18px;font-weight:900;color:var(--gold);flex-shrink:0}
+    .game-arrow{width:18px;height:18px;stroke:var(--muted);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+
+    /* Trust */
+    .trust{display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 0}
+    .trust-stars{display:flex;gap:2px}
+    .trust-stars svg{width:16px;height:16px;fill:var(--gold)}
+    .trust-text{font-size:12px;color:var(--muted)}
+    .trust-text strong{color:var(--text)}
+
+    /* Sticky CTA */
+    .sticky{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;padding:10px 16px 20px;background:linear-gradient(to top,var(--bg) 60%,transparent);z-index:40}
+    .cta-btn{width:100%;border:none;border-radius:16px;background:var(--purple);color:#fff;font-family:var(--font);font-size:17px;font-weight:800;padding:18px 24px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 0 24px rgba(139,92,246,0.4);-webkit-tap-highlight-color:transparent;transition:transform .1s;-webkit-user-select:none;user-select:none}
+    .cta-btn:active{transform:scale(.96)}
+    .cta-btn svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+    .cta-sub{text-align:center;font-size:11px;color:var(--muted);margin-top:6px}
+
+    /* Game Modal */
+    .modal-overlay{position:fixed;inset:0;z-index:50;display:flex;align-items:flex-end;justify-content:center;background:rgba(13,10,26,0.88);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .2s}
+    .modal-overlay.open{opacity:1;pointer-events:all}
+    .modal{width:100%;max-width:430px;background:var(--card);border-top:1px solid var(--border);border-radius:22px 22px 0 0;padding:28px 20px 32px;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center;transform:translateY(100%);transition:transform .25s ease}
+    .modal-overlay.open .modal{transform:translateY(0)}
+    .modal-close{position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:var(--muted);-webkit-tap-highlight-color:transparent}
+    .modal-close svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+    .modal-header{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--purple)}
+    .modal-header img{width:28px;height:28px;border-radius:7px;object-fit:cover}
+    .modal h2{font-size:20px;font-weight:900;line-height:1.25;letter-spacing:-0.3px}
+    .modal h2 em{font-style:normal;color:var(--purple)}
+    .modal-desc{font-size:13px;color:var(--muted);line-height:1.6}
+    .modal-cta{width:100%;border:none;border-radius:14px;background:var(--purple);color:#fff;font-family:var(--font);font-size:16px;font-weight:800;padding:16px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;box-shadow:0 0 24px rgba(139,92,246,0.3);-webkit-tap-highlight-color:transparent;transition:transform .1s;-webkit-user-select:none;user-select:none}
+    .modal-cta:active{transform:scale(.97)}
+    .modal-cta small{font-size:11px;font-weight:600;color:rgba(255,255,255,0.6)}
+    .steps{width:100%;display:flex;flex-direction:column;gap:12px;text-align:left}
+    .step{display:flex;align-items:flex-start;gap:12px}
+    .step-num{width:28px;height:28px;border-radius:8px;background:rgba(139,92,246,0.15);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:var(--purple);flex-shrink:0}
+    .step-text{font-size:12.5px;color:var(--muted);line-height:1.5}
+    .step-text strong{color:var(--text);font-weight:700}
+
+    /* Pro-tip popup */
+    .tip-overlay{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:rgba(13,10,26,0.9);backdrop-filter:blur(8px);padding:24px;opacity:0;pointer-events:none;transition:opacity .2s}
+    .tip-overlay.open{opacity:1;pointer-events:all}
+    .tip-box{width:100%;max-width:340px;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px 22px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;transform:scale(.9);transition:transform .2s}
+    .tip-overlay.open .tip-box{transform:scale(1)}
+    .tip-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.15em;color:var(--gold)}
+    .tip-text{font-size:14px;color:var(--text);line-height:1.6;font-weight:600}
+    .tip-text span{color:var(--gold);font-weight:800}
+    .tip-btn{width:100%;border:none;border-radius:12px;background:var(--purple);color:#fff;font-family:var(--font);font-size:14px;font-weight:800;padding:15px;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .1s;-webkit-user-select:none;user-select:none}
+    .tip-btn:active{transform:scale(.97)}
+  </style>
+</head>
+<body>
+
+  <div class="page">
+
+    <div class="header">
+      <img src="assets/teststar_logo.webp" alt="TestStar" fetchpriority="high">
+      <span>TestStar</span>
+    </div>
+
+    <div class="bonus">
+      <span>🎁 $10 Welcome Bonus</span>
+    </div>
+
+    <div class="hero">
+      <h1>Choose Your Game</h1>
+      <p>Pick a game below and start earning real money.</p>
+    </div>
+
+    <div class="limited">
+      <span class="limited-dot"></span>
+      Limited time offers
+    </div>
+
+    <div class="games">
+
+      <div class="game-card" data-game="blockblast">
+        <img src="assets/block_blast_logo.webp" alt="Block Blast" class="game-img" width="52" height="52" loading="lazy">
+        <div class="game-info">
+          <div class="game-label">Earn money playing</div>
+          <div class="game-name">Block Blast</div>
+        </div>
+        <div class="game-rate">$78/hr</div>
+        <svg class="game-arrow" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
+      <div class="game-card" data-game="roblox">
+        <img src="assets/roblox_logo.webp" alt="Roblox" class="game-img" width="52" height="52" loading="lazy">
+        <div class="game-info">
+          <div class="game-label">Earn money playing</div>
+          <div class="game-name">Roblox</div>
+        </div>
+        <div class="game-rate">$69/hr</div>
+        <svg class="game-arrow" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
+      <div class="game-card" data-game="subway">
+        <img src="assets/subway_surfers_logo.webp" alt="Subway Surfers" class="game-img" width="52" height="52" loading="lazy">
+        <div class="game-info">
+          <div class="game-label">Earn money playing</div>
+          <div class="game-name">Subway Surfers</div>
+        </div>
+        <div class="game-rate">$75/hr</div>
+        <svg class="game-arrow" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
+    </div>
+
+    <div class="trust">
+      <div class="trust-stars">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <span class="trust-text"><strong>4.8</strong> · 251k+ reviews</span>
+    </div>
+
+  </div>
+
+  <!-- Sticky CTA -->
+  <div class="sticky">
+    <button class="cta-btn" id="mainCta" type="button">
+      Download & Sign Up
+      <svg viewBox="0 0 24 24"><polyline points="5 12 19 12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </button>
+    <div class="cta-sub">iOS & Android</div>
+  </div>
+
+  <!-- Game Modal -->
+  <div class="modal-overlay" id="gameModal">
+    <div class="modal" style="position:relative">
+      <button class="modal-close" id="gameClose">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="modal-header">
+        <img id="modalGameImg" src="" alt="">
+        <span id="modalGameBrand"></span>
+      </div>
+      <h2>Earn money playing <em id="modalGameName"></em></h2>
+      <p class="modal-desc">Download the app and sign up to unlock full access and start earning money playing <span id="modalGameName2"></span> today.</p>
+      <button class="modal-cta" id="modalCta" type="button">
+        Download & Sign Up
+        <small>iOS & Android</small>
+      </button>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text"><strong>Download TestStar & Sign Up</strong><br>Available for iOS & Android – takes less than 60 seconds</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text"><strong>Unlock Paid to Play <span id="modalGameName3"></span></strong><br>Complete at least 2–3 tasks to lock in your spot and unlock the method</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text"><strong>Cash Out Your Earnings</strong><br>Instant payouts: PayPal, Bank Transfer & Crypto</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pro-tip popup -->
+  <div class="tip-overlay" id="tipOverlay">
+    <div class="tip-box">
+      <div class="tip-label">Pro-Tip</div>
+      <p class="tip-text">Make sure to choose <span>25+</span> for your age during sign-up to unlock the best rewards!</p>
+      <button class="tip-btn" id="tipBtn" type="button">GOT IT – CONTINUE</button>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      var games={
+        blockblast:{name:'Block Blast',img:'assets/block_blast_logo.webp',brand:'Block Blast × TestStar'},
+        roblox:{name:'Roblox',img:'assets/roblox_logo.webp',brand:'Roblox × TestStar'},
+        subway:{name:'Subway Surfers',img:'assets/subway_surfers_logo.webp',brand:'Subway Surfers × TestStar'}
+      };
+
+      var gameModal=document.getElementById('gameModal');
+      var tipOverlay=document.getElementById('tipOverlay');
+      var gameClose=document.getElementById('gameClose');
+
+      // Game card clicks
+      document.querySelectorAll('.game-card').forEach(function(c){
+        c.addEventListener('click',function(){
+          var g=games[c.getAttribute('data-game')];
+          if(!g)return;
+          document.getElementById('modalGameImg').src=g.img;
+          document.getElementById('modalGameBrand').textContent=g.brand;
+          document.getElementById('modalGameName').textContent=g.name;
+          document.getElementById('modalGameName2').textContent=g.name;
+          document.getElementById('modalGameName3').textContent=g.name;
+          gameModal.classList.add('open');
+          document.body.style.overflow='hidden';
+        });
+      });
+
+      function closeGame(){
+        gameModal.classList.remove('open');
+        document.body.style.overflow='';
+      }
+
+      gameClose.addEventListener('click',closeGame);
+      gameModal.addEventListener('click',function(e){if(e.target===gameModal)closeGame()});
+
+      function showTip(){
+        closeGame();
+        tipOverlay.classList.add('open');
+        document.body.style.overflow='hidden';
+      }
+
+      function goToLink(){
+        tipOverlay.classList.remove('open');
+        document.body.style.overflow='';
+        var u='click.html';
+        var s=new URLSearchParams(window.location.search).get('s1');
+        if(s)u+='?s1='+encodeURIComponent(s);
+        window.location.href=u;
+      }
+
+      // Main CTA → pro-tip
+      document.getElementById('mainCta').addEventListener('click',showTip);
+      document.getElementById('mainCta').addEventListener('contextmenu',function(e){e.preventDefault()});
+
+      // Modal CTA → pro-tip
+      document.getElementById('modalCta').addEventListener('click',showTip);
+      document.getElementById('modalCta').addEventListener('contextmenu',function(e){e.preventDefault()});
+
+      // Pro-tip continue → redirect
+      document.getElementById('tipBtn').addEventListener('click',goToLink);
+      document.getElementById('tipBtn').addEventListener('contextmenu',function(e){e.preventDefault()});
+
+      // ESC closes
+      document.addEventListener('keydown',function(e){
+        if(e.key==='Escape'){
+          if(tipOverlay.classList.contains('open')){tipOverlay.classList.remove('open');document.body.style.overflow=''}
+          else if(gameModal.classList.contains('open'))closeGame();
+        }
+      });
+    })();
+  </script>
+
+</body>
+</html>
