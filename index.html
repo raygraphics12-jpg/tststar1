@@ -36,4 +36,19 @@
     </a>
   </div>
 </body>
+  <script>
+    // Acest script se asigură că s1 se mută de pe index pe lander
+    document.addEventListener("DOMContentLoaded", function() {
+      var params = new URLSearchParams(window.location.search);
+      var s1 = params.get('s1');
+      if (s1) {
+        var links = document.querySelectorAll('a.btn');
+        links.forEach(function(link) {
+          link.href = 'lander.html?s1=' + encodeURIComponent(s1);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
 </html>
