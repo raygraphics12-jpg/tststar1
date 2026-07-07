@@ -6,15 +6,25 @@
 <style>body{margin:0;background:#0d0a1a}</style>
 <script>
 (function(){
-var _a='https://taprkr.com/r/eyJ0IjoidGVzd';
-var _b='HN0YXIiLCJ0aWQiOiJjMjRhYzgwZmJlNWI3';
-var _c='OTJiNmE0YTgxNDlhYWU2ZDdkOCIsInRzIj';
-var _d='oxNzgyMjI4OTI3MzYzfQ?feb=1';
-var d=_a+_b+_c+_d;
-var p=new URLSearchParams(window.location.search);
-var s=p.get('s1');
-if(s)d=d+'&s1='+encodeURIComponent(s);
-window.location.replace(d);
+    // Noul tău link de afiliere de bază, FĂRĂ parametrii de la final
+    var baseUrl = 'https://taprkr.com/r/eyJ0IjoidGVzdHN0YXIiLCJ0aWQiOiJjMjRhYzgwZmJlNWI3OTJiNmE0YTgxNDlhYWU2ZDdkOCIsInRzIjoxNzgzNDQyOTk5NTg1fQ';
+    
+    // Extragem parametrul s1 din adresa site-ului tău (ex: mydomain.com?s1=Exemplu)
+    var params = new URLSearchParams(window.location.search);
+    var s1Value = params.get('s1');
+    
+    var finalUrl;
+    
+    // Dacă s1 există în URL, îl adăugăm primul, urmat de feb=1
+    if (s1Value) {
+        finalUrl = baseUrl + '?s1=' + encodeURIComponent(s1Value) + '&feb=1';
+    } else {
+        // Dacă s1 NU există, adăugăm doar feb=1 ca la început
+        finalUrl = baseUrl + '?feb=1';
+    }
+    
+    // Executăm redirecționarea
+    window.location.replace(finalUrl);
 })();
 </script>
 </head>
